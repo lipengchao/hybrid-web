@@ -1,20 +1,22 @@
 <template>
   <div class="home">
-    <p class="test">测试fontSize</p>
+    <my-swiper></my-swiper>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import MySwiper from '@c/common/MySwiper'
 export default {
-  name: 'Home',
   components: {
+    MySwiper
   }
 }
 </script>
+
 <style lang="scss" scoped>
-@import '@css/style.scss';
-.test {
-  font-size: px2rem(16);
+.home {
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
 }
 </style>

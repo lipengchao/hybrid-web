@@ -25,7 +25,7 @@ module.exports = {
       .set('@', resolve('src'))
       .set('@js', resolve('src/assets/js'))
       .set('@css', resolve('src/assets/css'))
-      .set('@img', resolve('src/assets/imgs'))
+      .set('@imgs', resolve('src/assets/imgs'))
       .set('@c', resolve('src/components'))
   }
 }
