@@ -82,6 +82,9 @@ export default {
 @import '@css/style';
 .tool-bar {
   display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: px2rem(42);
   justify-content: space-around;
