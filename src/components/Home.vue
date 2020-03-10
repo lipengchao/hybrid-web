@@ -4,13 +4,15 @@
       <!-- 轮播图 -->
       <my-swiper :swiperImgs="swiperImgs" :height="swiperHeight"></my-swiper>
       <!-- 520活动 -->
-      <activity>
+      <activity class="activity">
         <div class="activity-520">
           <img class="activity-520-img" v-for="(item, index) in activityData" :key="index" :src="item.icon" alt="">
         </div>
       </activity>
       <!-- 功能选项 -->
       <mode-options></mode-options>
+      <!-- 秒杀 -->
+      <seconds :dataSource="secondsData"></seconds>
     </div>
   </div>
 </template>
@@ -19,17 +21,23 @@
 import MySwiper from '@c/common/MySwiper'
 import Activity from '@c/common/Activity'
 import ModeOptions from '@c/common/ModeOptions'
+import Seconds from '@c/seconds/Seconds'
+import { px2rem } from '@js/utils'
 export default {
   components: {
     MySwiper,
     Activity,
-    ModeOptions
+    ModeOptions,
+    Seconds
   },
   data () {
     return {
+      // 轮播图图数据
       swiperData: [],
-      swiperHeight: '184px',
-      activityData: []
+      swiperHeight: px2rem(184),
+      // 活动数据
+      activityData: [],
+      secondsData: []
     }
   },
   computed: {
@@ -45,10 +53,12 @@ export default {
     initData () {
       this.$http.all([
         this.$http.get('/swiper'),
-        this.$http.get('/activitys')
-      ]).then(this.$http.spread((swiperData, activityData) => {
+        this.$http.get('/activitys'),
+        this.$http.get('/seconds')
+      ]).then(this.$http.spread((swiperData, activityData, secondsData) => {
         this.swiperData = swiperData.list
         this.activityData = activityData.list
+        this.secondsData = secondsData.list
       }))
     }
   }

@@ -99,7 +99,7 @@ export default {
     }
     &-name {
       margin-top: px2rem(4);
-      font-size: $infoSize;
+      font-size: $minInfoSize;
       &-h {
         color: $mainColor;
       }

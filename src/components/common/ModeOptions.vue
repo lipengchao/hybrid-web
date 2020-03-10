@@ -85,7 +85,7 @@ export default {
     }
     &-title {
       margin-top: px2rem(6);
-      font-size: $infoSize
+      font-size: $minInfoSize
     }
   }
 }

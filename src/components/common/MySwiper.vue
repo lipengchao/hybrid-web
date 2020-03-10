@@ -66,8 +66,16 @@ export default {
 <style lang="scss" scoped>
 @import '@css/style.scss';
 .myswiper {
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  padding-bottom: px2rem(184);
+  background: #fff;
+  .swiper-slide-img {
+    width: 100%;
+  }
   /deep/.swiper-pagination {
-    bottom: px2rem(12);
+    bottom: px2rem(24);
     .custom-bullet-class {
       display: inline-block;
       width: px2rem(6);

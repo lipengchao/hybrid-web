@@ -4,5 +4,8 @@ $rootFontSize: 375 / 10;
 @function px2rem ($px) {
   @return $px / $rootFontSize + rem;
 }
-
-$infoSize: px2rem(12);
+$titleSize: px2rem(16);
+$infoSize: px2rem(14);
+$minInfoSize: px2rem(12);
+$radiusSize: px2rem(6);
+$marginSize: px2rem(8);

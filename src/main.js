@@ -3,8 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@css/reset.css'
-import '@js/htmlFontSize'
-import '@js/axios.config'
+import '@js/index'
 
 Vue.config.productionTip = false
 
