@@ -1,6 +1,19 @@
 <template>
   <div class="home">
-    <navigation-bar pageName="首页"></navigation-bar>
+    <navigation-bar :isShowBack="false">
+      <!-- 左侧插槽 -->
+      <template v-slot:nav-left>
+        <img src="@imgs/more-white.svg" alt="">
+      </template>
+      <!-- 中间插槽 -->
+      <template v-slot:nav-center>
+        <search :bgColor="bgColor" :hintColor="hintColor" :icon="icon"></search>
+      </template>
+      <!-- 右侧插槽 -->
+      <template v-slot:nav-right>
+        <img src="@imgs/message-white.svg" alt="">
+      </template>
+    </navigation-bar>
     <div class="home-content">
       <!-- 轮播图 -->
       <my-swiper :swiperImgs="swiperImgs" :height="swiperHeight"></my-swiper>
@@ -31,6 +44,7 @@ import MySwiper from '@c/common/MySwiper'
 import Activity from '@c/common/Activity'
 import ModeOptions from '@c/common/ModeOptions'
 import NavigationBar from '@c/common/NavigationBar'
+import Search from '@c/common/Search'
 import Seconds from '@c/seconds/Seconds'
 import Goods from '@c/goods/Goods'
 import { px2rem } from '@js/utils'
@@ -41,7 +55,8 @@ export default {
     ModeOptions,
     Seconds,
     Goods,
-    NavigationBar
+    NavigationBar,
+    Search
   },
   data () {
     return {
@@ -50,7 +65,10 @@ export default {
       swiperHeight: px2rem(184),
       // 活动数据
       activityData: [],
-      secondsData: []
+      secondsData: [],
+      bgColor: '#fff',
+      hintColor: '#999999',
+      icon: require('@imgs/search.svg')
     }
   },
   computed: {

@@ -2,13 +2,20 @@
   <div class="nav-bar z-index-max" :class="{'bottom-line': pageName}">
     <div class="left">
       <!-- 默认样式 -->
-      <img v-if="isShowBack" class="back-img" src="@imgs/back.svg" alt="">
+      <img v-if="isShowBack" src="@imgs/back.svg" alt="">
+      <!-- 具名插槽 -->
+      <slot name="nav-left"></slot>
     </div>
     <div class="center">
       <!-- 默认样式 -->
       <span class="page-title" v-if="pageName">{{ pageName }}</span>
+      <!-- 具名插槽 -->
+      <slot name="nav-center"></slot>
     </div>
-    <div class="right"></div>
+    <div class="right">
+      <!-- 具名插槽 -->
+      <slot name="nav-right"></slot>
+    </div>
   </div>
 </template>
 
@@ -48,15 +55,17 @@ export default {
     height: 100%;
     width: px2rem(26);
     padding: 0 $marginSize;
-    .back-img {
+    img {
       width: 100%;
       align-self: center;
     }
   }
   .center {
+    display: flex;
+    flex-grow: 1;
     height: 100%;
-    @include center();
     .page-title {
+      align-self: center;
       font-size: $titleSize;
     }
   }
