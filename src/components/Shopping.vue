@@ -1,10 +1,15 @@
 <template>
-  <div class="shopping">Shopping Vue</div>
+  <div class="shopping">
+    <navigation-bar pageName="购物车" :isShowBack="false"></navigation-bar>
+  </div>
 </template>
 
 <script>
+import NavigationBar from '@c/common/NavigationBar'
 export default {
-
+  components: {
+    NavigationBar
+  }
 }
 </script>
 

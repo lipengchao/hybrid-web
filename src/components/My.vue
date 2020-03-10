@@ -1,10 +1,15 @@
 <template>
-  <div class="My">My Vue</div>
+  <div class="My">
+    <navigation-bar pageName="个人中心" :isShowBack="false"></navigation-bar>
+  </div>
 </template>
 
 <script>
+import NavigationBar from '@c/common/NavigationBar'
 export default {
-
+  components: {
+    NavigationBar
+  }
 }
 </script>
 

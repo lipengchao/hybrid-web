@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <navigation-bar pageName="首页"></navigation-bar>
     <div class="home-content">
       <!-- 轮播图 -->
       <my-swiper :swiperImgs="swiperImgs" :height="swiperHeight"></my-swiper>
@@ -29,6 +30,7 @@
 import MySwiper from '@c/common/MySwiper'
 import Activity from '@c/common/Activity'
 import ModeOptions from '@c/common/ModeOptions'
+import NavigationBar from '@c/common/NavigationBar'
 import Seconds from '@c/seconds/Seconds'
 import Goods from '@c/goods/Goods'
 import { px2rem } from '@js/utils'
@@ -38,7 +40,8 @@ export default {
     Activity,
     ModeOptions,
     Seconds,
-    Goods
+    Goods,
+    NavigationBar
   },
   data () {
     return {
