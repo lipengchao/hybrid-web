@@ -91,6 +91,7 @@ export default {
   background-color: #fff;
   box-shadow: 0 0 px2rem(16) 0 rgba($color: #000000, $alpha: .2);
   border-top: 1px solid #e5e5e5;
+  z-index: 20;
   &-item {
     @include columnCenter();
     &-img {

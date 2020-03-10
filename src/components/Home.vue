@@ -4,7 +4,7 @@
       <!-- 轮播图 -->
       <my-swiper :swiperImgs="swiperImgs" :height="swiperHeight"></my-swiper>
       <!-- 520活动 -->
-      <activity class="activity">
+      <activity>
         <div class="activity-520">
           <img class="activity-520-img" v-for="(item, index) in activityData" :key="index" :src="item.icon" alt="">
         </div>
@@ -13,6 +13,14 @@
       <mode-options></mode-options>
       <!-- 秒杀 -->
       <seconds :dataSource="secondsData"></seconds>
+      <!-- 拼购节 -->
+      <activity>
+        <div class="activity-pingou-jie">
+          <img class="activity-pingou-jie-img" src="@imgs/pinGouJie.gif" alt="">
+        </div>
+      </activity>
+      <!-- 商品列表 -->
+      <goods></goods>
     </div>
   </div>
 </template>
@@ -22,13 +30,15 @@ import MySwiper from '@c/common/MySwiper'
 import Activity from '@c/common/Activity'
 import ModeOptions from '@c/common/ModeOptions'
 import Seconds from '@c/seconds/Seconds'
+import Goods from '@c/goods/Goods'
 import { px2rem } from '@js/utils'
 export default {
   components: {
     MySwiper,
     Activity,
     ModeOptions,
-    Seconds
+    Seconds,
+    Goods
   },
   data () {
     return {
@@ -71,6 +81,8 @@ export default {
   width: 100%;
   height: 100%;
   background-color: $bgColor;
+  overflow: hidden;
+  overflow-y: auto;
   &-content {
     height: 100%;
     .activity-520 {
@@ -80,6 +92,13 @@ export default {
       &-img {
         display: inline-block;
         width: 33.33%;
+      }
+    }
+    .activity-pingou-jie {
+      background-color: white;
+      margin-top: $marginSize;
+      &-img {
+        width: 100%;
       }
     }
   }
