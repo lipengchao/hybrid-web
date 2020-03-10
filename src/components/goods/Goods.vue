@@ -15,10 +15,12 @@
       <img class="goods-item-img" :src="item.img" :style="imgStyles[index]" alt="">
       <!-- 秒数 -->
       <div class="goods-item-desc">
-        <p class="goods-item-desc-name">
+        <p class="goods-item-desc-name text-line-2" :class="{'goods-item-desc-name-hint' : !item.isHave}">
           <!-- 是否为直营 -->
+          <direct v-if="item.isDirect"></direct>
           <!-- 是否有库存 -->
-          <span class="text-line-2">{{ item.name }}</span>
+          <no-have v-if="!item.isHave"></no-have>
+          {{ item.name }}
         </p>
         <div class="goods-item-desc-data">
           <p class="goods-item-desc-data-price">¥{{ item.price | priceValue }}</p>
@@ -30,6 +32,10 @@
 </template>
 
 <script>
+
+import Direct from '@c/goods/Direct'
+import NoHave from '@c/goods/NoHave'
+
 // 最大高度
 const MAX_IMG_HEIGHT = 230
 // 最小高度
@@ -38,6 +44,10 @@ const MIN_IMG_HEIGHT = 178
 const ITEM_MARGIN_SIZE = 8
 
 export default {
+  components: {
+    Direct,
+    NoHave
+  },
   data () {
     return {
       dataSource: [],
@@ -156,6 +166,9 @@ export default {
       &-name {
         font-size: $infoSize;
         line-height: px2rem(18);
+        &-hint {
+          color: $hintColor;
+        }
       }
       &-data {
         width: 100%;
