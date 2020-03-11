@@ -1,17 +1,15 @@
 <template>
-  <transition name="fade-in">
-    <div class="goods-list-page">
-      <navigation-bar @onLeftClick="onBackClick" pageName="商品列表">
-        <template v-slot:nav-right>
-          <img :src="layoutType.icon" @click="onChangeLayoutTypeClick()">
-        </template>
-      </navigation-bar>
-      <div class="goods-list-page-content">
-        <goods-options></goods-options>
-        <goods :layoutType="layoutType.type"></goods>
-      </div>
+  <div class="goods-list-page">
+    <navigation-bar @onLeftClick="onBackClick" pageName="商品列表">
+      <template v-slot:nav-right>
+        <img :src="layoutType.icon" @click="onChangeLayoutTypeClick()">
+      </template>
+    </navigation-bar>
+    <div class="goods-list-page-content">
+      <goods-options @optionsChange="onOptionsChange" :isScroll="true"></goods-options>
+      <goods :layoutType="layoutType.type" :sort="sortType"></goods>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script>
@@ -45,7 +43,9 @@ export default {
         }
       ],
       // 当前goods展示形式
-      layoutType: {}
+      layoutType: {},
+      // goods排序规则
+      sortType: '1-1'
     }
   },
   created () {
@@ -69,6 +69,12 @@ export default {
       } else {
         this.layoutType = this.layoutTypeDatas[0]
       }
+    },
+    /**
+     * 当筛选项改变时被调用
+     */
+    onOptionsChange (sortType) {
+      this.sortType = sortType
     }
   }
 }

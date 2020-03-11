@@ -2,5 +2,13 @@
   transition: all .3s linear;
 }
 .fade-in-enter, .fade-in-leave-to {
-  transform: translate3d(-100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  opacity: 1;
+}
+.fade-out-enter-active, .fade-out-leave-active {
+  transition: all .3s linear;
+}
+.fade-out-enter, .fade-out-leave-to {
+  transform: translate3d(100%, 0, 0);
+  opacity: 0;
 }

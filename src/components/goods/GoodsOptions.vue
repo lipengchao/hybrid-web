@@ -52,12 +52,12 @@ export default {
           ]
         },
         {
-          id: 2,
+          id: '2',
           name: '有货优先',
           subs: []
         },
         {
-          id: 3,
+          id: '3',
           name: '直营优先',
           subs: []
         }
@@ -92,6 +92,7 @@ export default {
       // 2. 当前item处于一个选中状态下的时候(item.id === selectOption.id)，展示子选项视图
       // 设置选中项为用户点击的item
       this.selectOption = item
+      this.$emit('optionsChange', this.selectOption.id)
     },
     /**
      * 子选项点击事件
@@ -103,6 +104,7 @@ export default {
       this.selectOption.id = item.id
       this.selectOption.name = item.name
       this.isShowSubContent = false
+      this.$emit('optionsChange', this.selectOption.id)
     }
   }
 }
