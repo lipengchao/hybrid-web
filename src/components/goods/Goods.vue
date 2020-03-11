@@ -12,7 +12,7 @@
     2. 生成不同高度的图片，撑起不同高度的item
     3. 计算item的位置，来达到从上到下，从左到右依次排列的目的
    -->
-  <div class="goods" :class="layoutClass" :style="{height: goodsViewHeight}">
+  <div class="goods" :class="[layoutClass, {'goods-scroll': isScroll}]" :style="{height: goodsViewHeight}">
     <div
       class="goods-item"
       :class="layoutItemClass"
@@ -65,6 +65,12 @@ export default {
     layoutType: {
       type: Number,
       default: 1
+    },
+    // 是否允许goods单独滑动
+    // 默认允许
+    isScroll: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -79,12 +85,17 @@ export default {
       // 不同展示形式的类名
       // 垂直列表的展示形式(默认) -> goods-list & goods-list-item
       // 网格布局的展示形式 -> goods-grid & goods.grid-item
-      layoutClass: 'goods-grid',
-      layoutItemClass: 'goods-grid-item'
+      layoutClass: 'goods-list',
+      layoutItemClass: 'goods-list-item'
     }
   },
   created () {
     this.initData()
+  },
+  watch: {
+    layoutType () {
+      this.initLayout()
+    }
   },
   methods: {
     /**
@@ -94,11 +105,8 @@ export default {
       this.$http.get('/goods')
         .then(data => {
           this.dataSource = data.list
-          // this.initImgStyles()
-          // this.$nextTick(() => {
-          //   // 调用创建瀑布流的方法
-          //   this.initWaterfall()
-          // })
+          // 设置布局
+          this.initLayout()
         })
     },
 
@@ -170,8 +178,50 @@ export default {
         // 保存计算item的所有样式，配置到item上
         this.goodsItemStyles.push(goodsItemStyle)
       })
+      // 如果允许单独互动就不计算高度，否则计算高度
+      if (!this.isScroll) {
       // 对比左右两侧最大的高度，最大的高度为goods组件的高度
-      this.goodsViewHeight = (leftHeightTotal > rightHeightTotal ? leftHeightTotal : rightHeightTotal) + 'px'
+        this.goodsViewHeight = (leftHeightTotal > rightHeightTotal ? leftHeightTotal : rightHeightTotal) + 'px'
+      }
+    },
+    /**
+     * 设置布局，为不同的layoutType设定不同的展示形式
+     * 1. 初始化影响到布局的数据
+     *    (1) goodsViewHeight -> 垂直布局、网格布局(100%)、瀑布流(实际高度)
+     *    (2) goodsItemStyles
+     *    (3) imgStyles
+     *  2. 为不同的layoutType设置不同的展示类
+     */
+    initLayout () {
+      // 初始化数据
+      this.goodsViewHeight = '100%'
+      this.goodsItemStyle = []
+      this.imgStyles = []
+      // 为不同的layoutType设置不同的展示类
+      switch (this.layoutType) {
+        // 垂直列表
+        case 1:
+          this.layoutClass = 'goods-list'
+          this.layoutItemClass = 'goods-list-item'
+          break
+        // 网格布局
+        case 2:
+          this.layoutClass = 'goods-grid'
+          this.layoutItemClass = 'goods-grid-item'
+          break
+        // 瀑布流布局
+        case 3:
+          this.layoutClass = 'goods-waterfall'
+          this.layoutItemClass = 'goods-waterfall-item'
+          this.initImgStyles()
+          this.$nextTick(() => {
+            // 调用创建瀑布流的方法
+            this.initWaterfall()
+          })
+          break
+        default:
+          break
+      }
     }
   }
 }
@@ -181,8 +231,10 @@ export default {
 @import '@css/style.scss';
 .goods {
   background-color: $bgColor;
-  overflow: hidden;
-  overflow-y: auto;
+  &-scroll {
+    overflow: hidden;
+    overflow-y: auto;
+  }
   &-item {
     background-color: #fff;
     padding: $marginSize;

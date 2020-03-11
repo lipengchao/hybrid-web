@@ -1,10 +1,14 @@
 <template>
   <transition name="fade-in">
     <div class="goods-list-page">
-      <navigation-bar @onLeftClick="onBackClick" pageName="商品列表"></navigation-bar>
+      <navigation-bar @onLeftClick="onBackClick" pageName="商品列表">
+        <template v-slot:nav-right>
+          <img :src="layoutType.icon" @click="onChangeLayoutTypeClick()">
+        </template>
+      </navigation-bar>
       <div class="goods-list-page-content">
         <goods-options></goods-options>
-        <goods></goods>
+        <goods :layoutType="layoutType.type"></goods>
       </div>
     </div>
   </transition>
@@ -20,12 +24,51 @@ export default {
     GoodsOptions,
     Goods
   },
+  data () {
+    return {
+      // goods展示形式数据源
+      layoutTypeDatas: [
+        {
+          // 垂直列表
+          type: 1,
+          icon: require('@imgs/list-type.svg')
+        },
+        {
+          // 网格布局
+          type: 2,
+          icon: require('@imgs/grid-type.svg')
+        },
+        {
+          // 瀑布流
+          type: 3,
+          icon: require('@imgs/waterfall-type.svg')
+        }
+      ],
+      // 当前goods展示形式
+      layoutType: {}
+    }
+  },
+  created () {
+    this.layoutType = this.layoutTypeDatas[0]
+  },
   methods: {
     /**
      * 后退按钮点击事件
      */
     onBackClick () {
       this.$router.go(-1)
+    },
+    /**
+     * 切换布局
+     */
+    onChangeLayoutTypeClick () {
+      if (this.layoutType.type === 1) {
+        this.layoutType = this.layoutTypeDatas[1]
+      } else if (this.layoutType.type === 2) {
+        this.layoutType = this.layoutTypeDatas[2]
+      } else {
+        this.layoutType = this.layoutTypeDatas[0]
+      }
     }
   }
 }
