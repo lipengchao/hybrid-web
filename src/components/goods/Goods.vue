@@ -1,12 +1,21 @@
 <template>
   <!--
+    如何在同一个组件中去展示不同的样式
+    1. html表示整个布局的结构，具体的展示，将由css决定
+    2. 每种展示样式对应不同的css，也就是对应不同的类名
+      （1）垂直列表 -> goods-list
+      （2）网格布局 -> goods-grid
+      （3）瀑布流布局 -> goods-waterfall
+    3. 实现不同的展示形式，本质上就是实现不同的css样式
+    瀑布流的布局：
     1. 创建结构，让item相对于goods进行排列
     2. 生成不同高度的图片，撑起不同高度的item
     3. 计算item的位置，来达到从上到下，从左到右依次排列的目的
    -->
-  <div class="goods goods-waterfall" :style="{height: goodsViewHeight}">
+  <div class="goods" :class="layoutClass" :style="{height: goodsViewHeight}">
     <div
-      class="goods-item goods-waterfall-item"
+      class="goods-item"
+      :class="layoutItemClass"
       v-for="(item, index) in dataSource"
       :key="item.id"
       ref="goodsItem"
@@ -48,6 +57,16 @@ export default {
     Direct,
     NoHave
   },
+  props: {
+    // 指定的展示形式
+    // 1: 垂直列表
+    // 2: 网格布局
+    // 3: 瀑布流布局
+    layoutType: {
+      type: Number,
+      default: 1
+    }
+  },
   data () {
     return {
       dataSource: [],
@@ -56,7 +75,12 @@ export default {
       // item样式集合
       goodsItemStyles: [],
       // goods组件的高度
-      goodsViewHeight: 0
+      goodsViewHeight: '100%',
+      // 不同展示形式的类名
+      // 垂直列表的展示形式(默认) -> goods-list & goods-list-item
+      // 网格布局的展示形式 -> goods-grid & goods.grid-item
+      layoutClass: 'goods-grid',
+      layoutItemClass: 'goods-grid-item'
     }
   },
   created () {
@@ -70,11 +94,11 @@ export default {
       this.$http.get('/goods')
         .then(data => {
           this.dataSource = data.list
-          this.initImgStyles()
-          this.$nextTick(() => {
-            // 调用创建瀑布流的方法
-            this.initWaterfall()
-          })
+          // this.initImgStyles()
+          // this.$nextTick(() => {
+          //   // 调用创建瀑布流的方法
+          //   this.initWaterfall()
+          // })
         })
     },
 
@@ -157,6 +181,8 @@ export default {
 @import '@css/style.scss';
 .goods {
   background-color: $bgColor;
+  overflow: hidden;
+  overflow-y: auto;
   &-item {
     background-color: #fff;
     padding: $marginSize;
@@ -189,6 +215,39 @@ export default {
     }
   }
 }
+// 垂直列表
+.goods-list {
+  &-item {
+    display: flex;
+    border-bottom: 1px solid $lineColor;
+    .goods-item-img {
+      width: px2rem(120);
+      height: px2rem(120);
+    }
+    .goods-item-desc {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: $marginSize;
+    }
+  }
+}
+// 网格布局
+.goods-grid {
+  display: flex;
+  padding: $marginSize;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  &-item {
+    width: 49%;
+    border-radius: $radiusSize;
+    margin-bottom: $marginSize;
+    .goods-item-img {
+      width: 100%;
+    }
+  }
+}
+// 瀑布流
 .goods-waterfall {
   position: relative;
   margin: $marginSize;

@@ -4,7 +4,7 @@
     :class="{'bottom-line': pageName}"
     :style="navBarStyle"
   >
-    <div class="left">
+    <div class="left" @click="$emit('onLeftClick')">
       <!-- 默认样式 -->
       <img v-if="isShowBack" src="@imgs/back.svg" alt="">
       <!-- 具名插槽 -->
@@ -77,6 +77,7 @@ export default {
     display: flex;
     flex-grow: 1;
     height: 100%;
+    justify-content: center;
     .page-title {
       align-self: center;
       font-size: $titleSize;
