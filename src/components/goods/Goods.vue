@@ -13,7 +13,7 @@
       :style="goodsItemStyles[index]"
     >
       <img class="goods-item-img" :src="item.img" :style="imgStyles[index]" alt="">
-      <!-- 秒数 -->
+      <!-- 描述 -->
       <div class="goods-item-desc">
         <p class="goods-item-desc-name text-line-2" :class="{'goods-item-desc-name-hint' : !item.isHave}">
           <!-- 是否为直营 -->

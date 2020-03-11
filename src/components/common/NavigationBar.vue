@@ -1,5 +1,9 @@
 <template>
-  <div class="nav-bar z-index-max" :class="{'bottom-line': pageName}">
+  <div
+    class="nav-bar z-index-max"
+    :class="{'bottom-line': pageName}"
+    :style="navBarStyle"
+  >
     <div class="left">
       <!-- 默认样式 -->
       <img v-if="isShowBack" src="@imgs/back.svg" alt="">
@@ -37,6 +41,15 @@ export default {
     isShowBack: {
       type: Boolean,
       default: true
+    },
+    // navBar样式
+    navBarStyle: {
+      type: Object,
+      default () {
+        return {
+          backgroundColor: 'white'
+        }
+      }
     }
   }
 }
