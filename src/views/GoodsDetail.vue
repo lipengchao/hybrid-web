@@ -85,6 +85,7 @@ import { px2rem } from '@js/utils'
 // 锚点值
 const ANCHOR_SCROLL_TOP = 310
 export default {
+  name: 'GoodsDetail',
   components: {
     NavigationBar,
     MySwiper,
@@ -163,6 +164,7 @@ export default {
 <style lang="scss" scoped>
 @import '@css/style.scss';
 .goods-detail {
+  position: absolute;
   display: flex;
   width: 100%;
   height: 100%;

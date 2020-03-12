@@ -17,6 +17,7 @@ import NavigationBar from '@c/common/NavigationBar'
 import GoodsOptions from '@c/goods/GoodsOptions'
 import Goods from '@c/goods/Goods'
 export default {
+  name: 'GoodsList',
   components: {
     NavigationBar,
     GoodsOptions,
@@ -45,7 +46,8 @@ export default {
       // 当前goods展示形式
       layoutType: {},
       // goods排序规则
-      sortType: '1-1'
+      sortType: '1-1',
+      scrollTopValue: 0
     }
   },
   created () {
@@ -75,6 +77,9 @@ export default {
      */
     onOptionsChange (sortType) {
       this.sortType = sortType
+    },
+    onScrollChange ($event) {
+      this.scrollTopValue = $event.target.scrollTop
     }
   }
 }
@@ -83,6 +88,7 @@ export default {
 <style lang="scss" scoped>
 @import '@css/style.scss';
 .goods-list-page {
+  position: absolute;
   display: flex;
   height: 100%;
   width: 100%;

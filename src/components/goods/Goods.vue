@@ -20,7 +20,7 @@
       2. 定义排序规则（可以直接使用GoodsOptions中数据源的id）
       3. 定义排序的方法，根据排序规则来修改对应的排序
     -->
-  <div class="goods" :class="[layoutClass, {'goods-scroll': isScroll}]" :style="{height: goodsViewHeight}">
+  <div class="goods" ref="goods" @scroll="onScrollChange" :class="[layoutClass, {'goods-scroll': isScroll}]" :style="{height: goodsViewHeight}">
     <div
       class="goods-item"
       :class="layoutItemClass"
@@ -62,6 +62,7 @@ const MIN_IMG_HEIGHT = 178
 const ITEM_MARGIN_SIZE = 8
 
 export default {
+  name: 'Goods',
   components: {
     Direct,
     NoHave
@@ -108,11 +109,19 @@ export default {
       // 垂直列表的展示形式(默认) -> goods-list & goods-list-item
       // 网格布局的展示形式 -> goods-grid & goods.grid-item
       layoutClass: 'goods-list',
-      layoutItemClass: 'goods-list-item'
+      layoutItemClass: 'goods-list-item',
+      // 滚动距离
+      scrollTopValue: 0
     }
   },
   created () {
     this.initData()
+  },
+  /**
+   * 定位页面滑动位置
+   */
+  activated () {
+    this.$refs.goods.scrollTop = this.scrollTopValue
   },
   watch: {
     layoutType () {
@@ -324,6 +333,12 @@ export default {
           goods: item
         }
       })
+    },
+    /**
+     * 监听滑动事件
+     */
+    onScrollChange ($event) {
+      this.scrollTopValue = $event.target.scrollTop
     }
   }
 }

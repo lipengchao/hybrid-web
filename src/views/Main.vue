@@ -34,6 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
+  position: absolute;
   width: 100%;
   height: 100%;
 }
