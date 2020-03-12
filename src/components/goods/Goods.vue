@@ -28,6 +28,7 @@
       :key="item.id"
       ref="goodsItem"
       :style="goodsItemStyles[index]"
+      @click="onItemClick(item)"
     >
       <img class="goods-item-img" :src="item.img" :style="imgStyles[index]" alt="">
       <!-- 描述 -->
@@ -307,6 +308,22 @@ export default {
         default:
           break
       }
+    },
+    /**
+       商品点击事件
+     */
+    onItemClick (item) {
+      // 商品无库存不允许跳转
+      if (!item.isHave) {
+        alert('该商品无库存')
+        return
+      }
+      this.$router.push({
+        name: 'goodsDetail',
+        params: {
+          goods: item
+        }
+      })
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="myswiper">
+  <div class="myswiper" :style="{paddingBottom: height}">
     <swiper :options="swiperOption">
       <swiper-slide v-for="(slide, index) in swiperImgs" :key="index">
         <img class="swiper-slide-img" :style="{height: height}" :src="slide" alt="">
@@ -30,6 +30,12 @@ export default {
       default () {
         return []
       }
+    },
+    // 1: 圆点切换
+    // 2: 数字
+    paginationType: {
+      type: Number,
+      default: 1
     }
   },
   components: {
@@ -59,6 +65,35 @@ export default {
         }
       }
     }
+  },
+  created () {
+    this.initPaginLayout()
+  },
+  methods: {
+    initPaginLayout () {
+      switch (this.paginationType) {
+        //  圆点分页器
+        case 1:
+          this.swiperOption.pagination = {
+            el: '.swiper-pagination',
+            // 分页器的样式
+            type: 'bullets',
+            // 分页器内的元素，添加类名
+            bulletClass: 'custom-bullet-class'
+          }
+          break
+        //  数字分页器
+        case 2:
+          this.swiperOption.pagination = {
+            el: '.swiper-pagination',
+            // 分页器的样式(数字)
+            type: 'fraction'
+          }
+          break
+        default:
+          break
+      }
+    }
   }
 }
 </script>
@@ -74,6 +109,7 @@ export default {
   .swiper-slide-img {
     width: 100%;
   }
+  // 圆点分页器
   /deep/.swiper-pagination {
     bottom: px2rem(24);
     .custom-bullet-class {
@@ -88,6 +124,23 @@ export default {
       &.swiper-pagination-bullet-active {
         background-color: #fff;
       }
+    }
+  }
+  // 数字分页器
+  /deep/.swiper-pagination-fraction {
+    left: auto;
+    right: 0;
+    width: auto;
+    font-size: $infoSize;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: px2rem(6) px2rem(18);
+    border-top-left-radius: px2rem(16);
+    border-bottom-left-radius: px2rem(16);
+    bottom: px2rem(32);
+    color: white;
+    .swiper-pagination-current {
+      font-size: $titleSize;
+      font-weight: bold;
     }
   }
 }

@@ -16,6 +16,12 @@ const routes = [
     name: 'goodsList',
     meta: { index: 1 },
     component: () => import('../views/GoodsList.vue')
+  },
+  {
+    path: '/goodsDetail',
+    name: 'goodsDetail',
+    meta: { index: 2 },
+    component: () => import('../views/GoodsDetail.vue')
   }
 ]
 
