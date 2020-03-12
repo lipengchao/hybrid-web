@@ -3,11 +3,17 @@
     <navigation-bar @onLeftClick="onBackClick" :isShowBack="false" :navBarStyle="navBarStyle">
       <template v-slot:nav-left>
         <div class="goods-detail-nav-left">
-          <img src="@imgs/back-2.svg" alt="">
+          <!-- 默认状态下黑色后退按钮 -->
+          <img src="@imgs/back-2.svg" alt="" :style="{opacity: leftImgOpacity}">
+          <!-- 完全展示之后的白色后退按钮 -->
+          <img src="@imgs/back-white.svg" alt="" :style="{opacity: navBarOpacity}">
         </div>
       </template>
+      <template v-slot:nav-center>
+        <p class="goods-detail-nav-title" :style="{opacity: navBarOpacity}">商品详情</p>
+      </template>
     </navigation-bar>
-    <div class="goods-detail-content">
+    <div class="goods-detail-content" @scroll="onScrollChange">
       <my-swiper
         :height="swiperHeight"
         :swiperImgs="goodsData.swiperImgs"
@@ -67,6 +73,8 @@ import NavigationBar from '@c/common/NavigationBar'
 import MySwiper from '@c/common/MySwiper'
 import Direct from '@c/goods/Direct'
 import { px2rem } from '@js/utils'
+// 锚点值
+const ANCHOR_SCROLL_TOP = 310
 export default {
   components: {
     NavigationBar,
@@ -75,10 +83,10 @@ export default {
   },
   data () {
     return {
-      navBarStyle: {
-        backgroundColor: '',
-        position: 'fixed'
-      },
+      // navBarStyle: {
+      //   backgroundColor: '',
+      //   position: 'fixed'
+      // },
       swiperHeight: px2rem(364),
       goodsData: {},
       // 附加服务
@@ -89,11 +97,40 @@ export default {
         '211限时达',
         '可自提',
         '不可使用优惠券'
-      ]
+      ],
+      // 页面滑动
+      scrollVaule: 0
     }
   },
   created () {
     this.goodsData = this.$route.params.goods
+  },
+  computed: {
+    /**
+     * 默认状态下左侧后退按钮透明度
+     */
+    leftImgOpacity () {
+      // 逐渐显示透明度 scroll / 锚点值 = opacity
+      // 默认状态下后退按钮，逐渐隐藏: 1-opacity
+      return 1 - this.scrollVaule / ANCHOR_SCROLL_TOP
+    },
+    /**
+     * navBar的样式
+     */
+    navBarStyle () {
+      return {
+        backgroundColor: `rgba(216, 36, 6, ${this.navBarOpacity})`,
+        position: 'fixed',
+        top: 0
+      }
+    },
+    /**
+     * navBar插槽透明度
+     * 默认状态下后退按钮，逐渐隐藏的过程中插槽逐渐显示
+     */
+    navBarOpacity () {
+      return 1 - this.leftImgOpacity
+    }
   },
   methods: {
     /**
@@ -101,6 +138,13 @@ export default {
      */
     onBackClick () {
       this.$router.go(-1)
+    },
+    /**
+     * 滚动监听
+     */
+    onScrollChange ($event) {
+      // 获取当前页面的滑动值
+      this.scrollVaule = $event.target.scrollTop
     }
   }
 }
@@ -114,11 +158,18 @@ export default {
   height: 100%;
   flex-flow: column;
   &-nav-left {
+    position: relative;
     display: flex;
     width: 100%;
     img {
+      position: absolute;
       align-self: center;
     }
+  }
+  &-nav-title {
+    font-size: $titleSize;
+    font-weight: bold;
+    color: #fff;
   }
   &-content {
     overflow: hidden;
