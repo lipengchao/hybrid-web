@@ -114,7 +114,15 @@ export default {
     }
   },
   created () {
-    this.goodsData = this.$route.params.goods
+    // 当我们直接在浏览器中，刷新页面的时候，vueRouter里面的params数据会被重置
+    // 这时候goods是undefined
+    // 在详情页面里面无论如何刷新页面，我们都可以获取到这个商品的数据
+    const gData = this.$route.params.goods
+    if (gData) {
+      this.goodsData = gData
+    } else {
+      this.loadGoodsData()
+    }
   },
   computed: {
     /**
@@ -156,6 +164,18 @@ export default {
     onScrollChange (scrollValue) {
       // 获取当前页面的滑动值
       this.scrollVaule = scrollValue
+    },
+    /**
+     * 根据商品id,获取到商品数据
+     */
+    loadGoodsData () {
+      this.$http.get('/goodsDetail', {
+        params: {
+          goodsId: this.$route.query.goodsId
+        }
+      }).then(data => {
+        this.goodsData = data.goodsData
+      })
     }
   }
 }
@@ -184,6 +204,7 @@ export default {
     color: #fff;
   }
   &-content {
+    overflow: hidden;
     height: 100%;
     &-desc {
       width: 100%;

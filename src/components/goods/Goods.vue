@@ -331,6 +331,10 @@ export default {
         name: 'goodsDetail',
         params: {
           goods: item
+        },
+        // 传递的数据附加到我们的URL上
+        query: {
+          goodsId: item.id
         }
       })
     },
