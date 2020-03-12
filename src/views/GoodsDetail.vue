@@ -13,48 +13,56 @@
         <p class="goods-detail-nav-title" :style="{opacity: navBarOpacity}">商品详情</p>
       </template>
     </navigation-bar>
-    <div class="goods-detail-content" @scroll="onScrollChange">
-      <my-swiper
-        :height="swiperHeight"
-        :swiperImgs="goodsData.swiperImgs"
-        :paginationType="2"
-      ></my-swiper>
-      <!-- 内容 -->
-      <div class="goods-detail-content-desc">
-        <div class="goods-detail-content-desc-item">
-          <!-- 商品价格 -->
-          <p class="goods-detail-content-desc-item-price">¥{{ goodsData.price | priceValue }}</p>
-          <!-- 商品名称 -->
-          <p class="goods-detail-content-desc-item-name">
-            <!-- 直营 -->
-            <direct v-if="goodsData.isDirect"></direct>
-            {{ goodsData.name }}
-          </p>
-        </div>
-        <div class="goods-detail-content-desc-item">
-          <!-- 已选商品 -->
-          <p class="goods-detail-content-desc-item-select">
-            已选<span class="single-row-text">{{ goodsData.name }}</span>
-          </p>
-          <!-- 附加服务 -->
-          <div class="goods-detail-content-desc-item-support">
-            <ul class="goods-detail-content-desc-item-support-list">
-              <li
-                class="goods-detail-content-desc-item-support-list-item"
-                v-for="(item, index) in attachDatas"
-                :key="index"
-              >
-                <img src="@imgs/support.svg" alt="">
-                <span>{{ item }}</span>
-              </li>
-            </ul>
+    <div class="goods-detail-content">
+      <parallax  @onScrollChange="onScrollChange">
+        <!-- 缓慢移动区 -->
+        <template v-slot:parallax>
+          <my-swiper
+            :height="swiperHeight"
+            :swiperImgs="goodsData.swiperImgs"
+            :paginationType="2"
+          ></my-swiper>
+        </template>
+        <!-- 正常移动区 -->
+        <template>
+          <!-- 内容 -->
+          <div class="goods-detail-content-desc">
+            <div class="goods-detail-content-desc-item">
+              <!-- 商品价格 -->
+              <p class="goods-detail-content-desc-item-price">¥{{ goodsData.price | priceValue }}</p>
+              <!-- 商品名称 -->
+              <p class="goods-detail-content-desc-item-name">
+                <!-- 直营 -->
+                <direct v-if="goodsData.isDirect"></direct>
+                {{ goodsData.name }}
+              </p>
+            </div>
+            <div class="goods-detail-content-desc-item">
+              <!-- 已选商品 -->
+              <p class="goods-detail-content-desc-item-select">
+                已选<span class="single-row-text">{{ goodsData.name }}</span>
+              </p>
+              <!-- 附加服务 -->
+              <div class="goods-detail-content-desc-item-support">
+                <ul class="goods-detail-content-desc-item-support-list">
+                  <li
+                    class="goods-detail-content-desc-item-support-list-item"
+                    v-for="(item, index) in attachDatas"
+                    :key="index"
+                  >
+                    <img src="@imgs/support.svg" alt="">
+                    <span>{{ item }}</span>
+                  </li>
+                </ul>
+              </div>
+            <!-- 商品描述 -->
+            <div class="goods-detail-content-desc-detail">
+              <img v-for="(item, index) in goodsData.detailImgs" :key="index" :src="item" alt="">
+            </div>
+            </div>
           </div>
-        <!-- 商品描述 -->
-        <div class="goods-detail-content-desc-detail">
-          <img v-for="(item, index) in goodsData.detailImgs" :key="index" :src="item" alt="">
-        </div>
-        </div>
-      </div>
+        </template>
+      </parallax>
     </div>
     <!-- 加入购物车、立即购买 -->
     <div class="goods-detail-buy">
@@ -71,6 +79,7 @@
 <script>
 import NavigationBar from '@c/common/NavigationBar'
 import MySwiper from '@c/common/MySwiper'
+import Parallax from '@c/parallax/Parallax'
 import Direct from '@c/goods/Direct'
 import { px2rem } from '@js/utils'
 // 锚点值
@@ -79,7 +88,8 @@ export default {
   components: {
     NavigationBar,
     MySwiper,
-    Direct
+    Direct,
+    Parallax
   },
   data () {
     return {
@@ -142,9 +152,9 @@ export default {
     /**
      * 滚动监听
      */
-    onScrollChange ($event) {
+    onScrollChange (scrollValue) {
       // 获取当前页面的滑动值
-      this.scrollVaule = $event.target.scrollTop
+      this.scrollVaule = scrollValue
     }
   }
 }
@@ -172,8 +182,6 @@ export default {
     color: #fff;
   }
   &-content {
-    overflow: hidden;
-    overflow-y: auto;
     height: 100%;
     &-desc {
       width: 100%;
