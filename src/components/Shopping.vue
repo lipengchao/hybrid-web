@@ -34,6 +34,7 @@
               <div class="shopping-content-list-item-desc-data">
                 <p class="shopping-content-list-item-desc-data-price">¥{{ item.price | priceValue }}</p>
                 <!-- 商品数量的控制组件 -->
+                <number-manager :defaultNumber="1" @onChangeNumber="onChangeNumber(arguments, item, index)"></number-manager>
               </div>
             </div>
           </li>
@@ -66,11 +67,13 @@
 <script>
 import NavigationBar from '@c/common/NavigationBar'
 import Direct from '@c/goods/Direct'
+import NumberManager from '@c/goods/NumberManager'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     NavigationBar,
-    Direct
+    Direct,
+    NumberManager
   },
   data () {
     return {
@@ -90,8 +93,8 @@ export default {
       'shoppingDatas'
     ])
   },
-  created () {
-    console.log(this.shoppingDatas)
+  methods: {
+    onChangeNumber () {}
   }
 }
 </script>
