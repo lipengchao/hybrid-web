@@ -13,15 +13,21 @@ const routes = [
   },
   {
     path: '/goodsList',
-    name: 'goodsList',
+    name: 'GoodsList',
     meta: { index: 1 },
     component: () => import('../views/GoodsList.vue')
   },
   {
     path: '/goodsDetail',
-    name: 'goodsDetail',
+    name: 'GoodsDetail',
     meta: { index: 2 },
     component: () => import('../views/GoodsDetail.vue')
+  },
+  {
+    path: '/buy',
+    name: 'Buy',
+    meta: { index: 3 },
+    component: () => import('../views/Buy.vue')
   }
 ]
 

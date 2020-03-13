@@ -66,10 +66,10 @@
     </div>
     <!-- 加入购物车、立即购买 -->
     <div class="goods-detail-buy">
-      <div class="goods-detail-buy-add">
+      <div class="goods-detail-buy-add" @click="onAddGoodsClick()">
         加入购物车
       </div>
-      <div class="goods-detail-buy-now">
+      <div class="goods-detail-buy-now" @click="onBuyClick()">
         立即购买
       </div>
     </div>
@@ -82,6 +82,7 @@ import MySwiper from '@c/common/MySwiper'
 import Parallax from '@c/parallax/Parallax'
 import Direct from '@c/goods/Direct'
 import { px2rem } from '@js/utils'
+import { mapMutations } from 'vuex'
 // 锚点值
 const ANCHOR_SCROLL_TOP = 310
 export default {
@@ -176,7 +177,38 @@ export default {
       }).then(data => {
         this.goodsData = data.goodsData
       })
-    }
+    },
+    /**
+     * 立即购买
+     */
+    onBuyClick () {
+      this.$router.push({
+        name: 'Buy',
+        query: {
+          goodsId: this.goodsData.id
+        }
+      })
+    },
+    /**
+     * 加入购物车
+     */
+    onAddGoodsClick () {
+      // 保存商品到购物车数据中
+      this.addShoppingData(this.goodsData)
+      alert('加入购物车')
+      this.$router.push({
+        name: 'Main',
+        params: {
+          // 自定义标记, 在toobar中定义的tab数据源数据的小标
+          componentIndex: 1,
+          // 自定义标记清空虚拟任务栈
+          clearTask: true
+        }
+      })
+    },
+    ...mapMutations({
+      addShoppingData: 'addShoppingData'
+    })
   }
 }
 </script>

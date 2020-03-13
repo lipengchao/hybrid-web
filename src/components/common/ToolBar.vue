@@ -73,6 +73,13 @@ export default {
     onChangeFragment (item, index) {
       this.selectItemIndex = index
       this.$emit('onChangeFragment', item.componentName)
+    },
+    /**
+     * 指定切换tab页
+     */
+    pushFragment (index) {
+      // 调用onChangeFragment切换对应的tab
+      this.onChangeFragment(this.toolBarData[index], index)
     }
   }
 }

@@ -156,7 +156,6 @@ export default {
      *    否则的话 opacity < 1 ，当前navBar插槽的样式为默认状态的样式
      */
     onScrollChange ($event) {
-      console.log(11)
       // 获取当前页面滚动的距离
       this.scrollTopValue = $event.target.scrollTop
       // this.scrollTopValue = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop

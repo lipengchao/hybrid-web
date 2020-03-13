@@ -328,7 +328,7 @@ export default {
         return
       }
       this.$router.push({
-        name: 'goodsDetail',
+        name: 'GoodsDetail',
         params: {
           goods: item
         },

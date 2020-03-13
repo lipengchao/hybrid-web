@@ -2,11 +2,11 @@
   <div class="goods-list-page">
     <navigation-bar @onLeftClick="onBackClick" pageName="商品列表">
       <template v-slot:nav-right>
-        <img :src="layoutType.icon" @click="onChangeLayoutTypeClick()">
+        <img :src="layoutType.icon" @click="onChangeLayoutTypeClick">
       </template>
     </navigation-bar>
     <div class="goods-list-page-content">
-      <goods-options @optionsChange="onOptionsChange" :isScroll="true"></goods-options>
+      <goods-options @optionsChange="onOptionsChange"></goods-options>
       <goods :layoutType="layoutType.type" :sort="sortType"></goods>
     </div>
   </div>

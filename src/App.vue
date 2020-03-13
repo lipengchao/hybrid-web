@@ -39,6 +39,10 @@ export default {
         // 后退动画
         this.transitionName = 'fold-right'
       }
+      // 当接收到清空任务栈指令的时候，重置虚拟任务栈
+      if (to.params.clearTask) {
+        this.virtualTaskStack = ['Main']
+      }
     }
   }
 }

@@ -4,7 +4,7 @@
       <!-- 动态组件 -->
       <component :is="currentComponent"></component>
     </keep-alive>
-    <tool-bar @onChangeFragment="onChangeFragment"></tool-bar>
+    <tool-bar ref="toolBar" @onChangeFragment="onChangeFragment"></tool-bar>
   </div>
 </template>
 
@@ -26,10 +26,25 @@ export default {
       currentComponent: 'home'
     }
   },
+  activated () {
+    this.pushFragment()
+  },
   methods: {
-    // tab切换
+    /**
+     * tab切换
+     */
     onChangeFragment (componentName) {
       this.currentComponent = componentName
+    },
+    /**
+     * 指定加载的页面组件
+     */
+    pushFragment () {
+      // 获取到组件加载的下标
+      const componentIndex = this.$route.params.componentIndex
+      // 如果没有下标的话，直接让方法return掉
+      if (componentIndex === undefined) return
+      this.$refs.toolBar.pushFragment(componentIndex)
     }
   }
 }
