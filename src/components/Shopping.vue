@@ -22,29 +22,41 @@
             <!-- check -->
             <img class="shopping-content-list-item-check" src="@imgs/no-check.svg" alt="">
             <!-- 商品图片 -->
-            <img class="hopping-content-list-item-img" :src="item.img" alt="">
+            <img class="shopping-content-list-item-img" :src="item.img" alt="">
             <!-- 描述 -->
-            <div class="hopping-content-list-item-desc">
+            <div class="shopping-content-list-item-desc">
               <!-- 名称 -->
-              <p class="hopping-content-list-item-desc-name">
+              <p class="shopping-content-list-item-desc-name text-line-2">
                 <!-- 是否为直营 -->
                 <direct v-if="item.isDirect"></direct>
                 {{ item.name }}
               </p>
-              <div class="hopping-content-list-item-desc-data">
-                <p class="hopping-content-list-item-desc-data-price">¥{{ item.price | priceValue }}</p>
+              <div class="shopping-content-list-item-desc-data">
+                <p class="shopping-content-list-item-desc-data-price">¥{{ item.price | priceValue }}</p>
                 <!-- 商品数量的控制组件 -->
               </div>
             </div>
           </li>
         </ul>
-        <!-- 统计 -->
-        <div class="shopping-content-total">
-          <!-- 全选check -->
-          <div class="shopping-content-total-check">
-            <img src="@imgs/no-check.svg" alt="">
-            <p>全选</p>
-          </div>
+      </div>
+       <!-- 统计 -->
+      <div class="shopping-content-total">
+        <!-- 全选check -->
+        <div class="shopping-content-total-check">
+          <img src="@imgs/no-check.svg" alt="">
+          <p>全选</p>
+        </div>
+        <!-- 总价格 -->
+        <div class="shopping-content-total-price">
+          <p class="shopping-content-total-price-total">合计: <span>¥{{ totalData.totalPrice | priceValue }}</span></p>
+          <p class="shopping-content-total-price-all">
+            总额: <span>¥{{ totalData.totalPrice | priceValue }}</span>&nbsp;&nbsp;
+            立减: <span>¥0.00</span>
+          </p>
+        </div>
+        <!-- 结算 -->
+        <div class="shopping-content-total-commit">
+          去结算({{totalData.goodsNumber}})
         </div>
       </div>
     </div>
@@ -60,18 +72,142 @@ export default {
     NavigationBar,
     Direct
   },
+  data () {
+    return {
+      // 总计
+      totalData: {
+        // 是否全选
+        isAll: false,
+        // 总价格
+        totalPrice: 0,
+        // 总数量
+        goodsNumber: 0
+      }
+    }
+  },
   computed: {
     ...mapGetters([
       'shoppingDatas'
     ])
+  },
+  created () {
+    console.log(this.shoppingDatas)
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@css/style.scss';
 .shopping {
+  display: flex;
+  overflow: hidden;
+  flex-flow: column;
   width: 100%;
   height: 100%;
-  font-size: 32px;
+  &-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    border-top: px2rem(1) solid $lineColor;
+    box-sizing: border-box;
+    background-color: $bgColor;
+    // 商品列表
+    &-list {
+      overflow: hidden;
+      overflow-y: auto;
+      height: 100%;
+      &-item {
+        display: flex;
+        padding: $marginSize;
+        border-bottom: px2rem(1) solid $lineColor;
+        background-color: white;
+        &-check {
+          width: $checkSize;
+          align-self: center;
+          padding: px2rem(6)
+        }
+        &-img {
+          width: $listGoodsImgSize;
+          height: $listGoodsImgSize;
+        }
+        &-desc {
+          display: flex;
+          padding: 0 $marginSize;
+          width: 100%;
+          flex-direction: column;
+          justify-content: space-between;
+          &-name {
+            font-size: $infoSize;
+            line-height: px2rem(18);
+          }
+          &-data {
+            display: flex;
+            margin-top: $marginSize;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            &-price {
+              font-size: $titleSize;
+              color: $mainColor;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+    // 统计
+    &-total {
+      position: absolute;
+      display: flex;
+      width: 100%;
+      bottom: px2rem(42);
+      align-items: center;
+      height: px2rem(56);
+      box-sizing: border-box;
+      border-top: px2rem(1) solid $lineColor;
+      background-color: #fff;
+      &-check {
+        display: flex;
+        align-items: center;
+        margin: 0 $marginSize;
+        img {
+          width: $checkSize;
+          height: $checkSize;
+          padding: px2rem(6)
+        }
+        p {
+          font-size: $infoSize;
+        }
+      }
+      &-price {
+        display: flex;
+        flex-grow: 2;
+        flex-direction: column;
+        &-total {
+          margin-bottom: px2rem(6);
+          font-size: $titleSize;
+          span {
+            font-weight: bold;
+          }
+        }
+        &-all {
+          font-size: $minInfoSize;
+          span {
+            font-weight: bold;
+          }
+        }
+      }
+      &-commit {
+        display: flex;
+        width: px2rem(120);
+        height: 100%;
+        font-size: $titleSize;
+        background-color: $mainColor;
+        color: white;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
 }
 </style>
