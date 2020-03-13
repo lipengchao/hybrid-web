@@ -20,7 +20,7 @@
         <ul>
           <li class="shopping-content-list-item" v-for="(item, index) in shoppingDatas" :key="index">
             <!-- check -->
-            <img class="shopping-content-list-item-check" src="@imgs/no-check.svg" alt="">
+            <img class="shopping-content-list-item-check" :src="checkImg(item.isCheck)" @click="onGoodsCheckClick(item)" alt="">
             <!-- 商品图片 -->
             <img class="shopping-content-list-item-img" :src="item.img" alt="">
             <!-- 描述 -->
@@ -34,7 +34,7 @@
               <div class="shopping-content-list-item-desc-data">
                 <p class="shopping-content-list-item-desc-data-price">¥{{ item.price | priceValue }}</p>
                 <!-- 商品数量的控制组件 -->
-                <number-manager :defaultNumber="1" @onChangeNumber="onChangeNumber(arguments, item, index)"></number-manager>
+                <number-manager :defaultNumber="item.number" @onChangeNumber="onChangeNumber(arguments, item, index)"></number-manager>
               </div>
             </div>
           </li>
@@ -44,7 +44,7 @@
       <div class="shopping-content-total">
         <!-- 全选check -->
         <div class="shopping-content-total-check">
-          <img src="@imgs/no-check.svg" alt="">
+          <img :src="checkImg(totalData.isAll)" alt="" @click="onAllCheckClick">
           <p>全选</p>
         </div>
         <!-- 总价格 -->
@@ -68,8 +68,9 @@
 import NavigationBar from '@c/common/NavigationBar'
 import Direct from '@c/goods/Direct'
 import NumberManager from '@c/goods/NumberManager'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
+  name: 'Shopping',
   components: {
     NavigationBar,
     Direct,
@@ -94,7 +95,77 @@ export default {
     ])
   },
   methods: {
-    onChangeNumber () {}
+    /**
+     * @augments 由子组件传过来的数据
+     * @item 传入的商品
+     */
+    onChangeNumber ($arguments, item, index) {
+      // 最新商品数量
+      const number = $arguments[0]
+      // 修改对应的商品数量
+      this.changeShoppingNumber({
+        index: index,
+        number: number
+      })
+      // 在商品数量发生变化时，并且该商品处于选中状态下
+      if (item.isCheck) {
+        this.computedGoodsTotal()
+      }
+    },
+    /**
+     * check按钮图标
+     */
+    checkImg (isCheck) {
+      return isCheck ? require('@imgs/check.svg') : require('@imgs/no-check.svg')
+    },
+    /**
+     * 商品check按钮点击事件
+     */
+    onGoodsCheckClick (item) {
+      item.isCheck = !item.isCheck
+      // 统计数据
+      this.computedGoodsTotal()
+    },
+    /**
+     * 全选check点击事件
+     */
+    onAllCheckClick () {
+      this.totalData.isAll = !this.totalData.isAll
+      // 为每个商品设置选中标记
+      this.shoppingDatas.forEach(item => {
+        item.isCheck = this.totalData.isAll
+      })
+      // 统计数据
+      this.computedGoodsTotal()
+    },
+    /**
+     * 计算总计数据
+     */
+    computedGoodsTotal () {
+      // 先去初始化totalData数据,让是否全选默认为true，当存在商品没有被选中的时候，则把isAll变为false
+      this.totalData = {
+        // 是否全选
+        isAll: true,
+        // 总价格
+        totalPrice: 0,
+        // 总数量
+        goodsNumber: 0
+      }
+      // 计算总计数据
+      // 遍历数据源，如果商品处于未选中状态下，那么则把isAll变为false
+      // 如果商品处于选中状态之下，则计算该商品总价格和数量
+      this.shoppingDatas.forEach(item => {
+        if (item.isCheck) {
+          this.totalData.totalPrice += parseFloat(item.price) * parseInt(item.number)
+          this.totalData.goodsNumber += parseInt(item.number)
+        } else {
+          this.totalData.isAll = false
+        }
+      })
+    },
+    ...mapMutations({
+      changeShoppingNumber: 'changeShoppingNumber'
+    })
   }
 }
 </script>

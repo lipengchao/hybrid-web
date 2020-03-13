@@ -14,7 +14,7 @@
 export default {
   props: {
     // 父组件指定的默认数量
-    defaulNumber: {
+    defaultNumber: {
       type: Number,
       default: 1
     }
@@ -26,8 +26,8 @@ export default {
     }
   },
   watch: {
-    defaulNumber (newV) {
-      this.number = this.defaulNumber
+    defaultNumber (newV) {
+      this.number = this.defaultNumber
     },
     number (newV) {
       this.$emit('onChangeNumber', newV)
