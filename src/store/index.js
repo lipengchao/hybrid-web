@@ -6,7 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // 购物车数据源
-    shoppingDatas: []
+    shoppingDatas: [],
+    // 当前设备是否为iphoneX
+    isIphoneX: false,
+    isLH: false
   },
   mutations: {
     /**
@@ -39,10 +42,21 @@ export default new Vuex.Store({
       // index: 指定的商品
       // number: 商品的数量
       state.shoppingDatas[data.index].number = data.number
+    },
+    /**
+     * 修改isIphoneX
+     */
+    setIsIphoneX (state, isIphoneX) {
+      state.isIphoneX = isIphoneX
+    },
+    setIsLH (state, isLH) {
+      state.isLH = isLH
     }
   },
   getters: {
-    shoppingDatas: state => state.shoppingDatas
+    shoppingDatas: state => state.shoppingDatas,
+    isIphoneX: state => state.isIphoneX,
+    isLH: state => state.isLH
   },
   actions: {
   },

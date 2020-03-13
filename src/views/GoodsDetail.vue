@@ -65,7 +65,7 @@
       </parallax>
     </div>
     <!-- 加入购物车、立即购买 -->
-    <div class="goods-detail-buy">
+    <div class="goods-detail-buy" :class="{'iphonex-bottom': isIphoneX}">
       <div class="goods-detail-buy-add" @click="onAddGoodsClick()">
         加入购物车
       </div>
@@ -83,9 +83,11 @@ import Parallax from '@c/parallax/Parallax'
 import Direct from '@c/goods/Direct'
 import { px2rem } from '@js/utils'
 import { mapMutations } from 'vuex'
+import { isIphoneX } from '@js/mixin.js'
 // 锚点值
 const ANCHOR_SCROLL_TOP = 310
 export default {
+  mixins: [isIphoneX],
   name: 'GoodsDetail',
   components: {
     NavigationBar,

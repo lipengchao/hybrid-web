@@ -1,7 +1,7 @@
 <template>
   <div
     class="nav-bar z-index-max"
-    :class="{'bottom-line': pageName}"
+    :class="[{'iphonex-top': isIphoneX || isLH}, {'bottom-line': pageName}]"
     :style="navBarStyle"
   >
     <div class="left" @click="$emit('onLeftClick')">
@@ -30,7 +30,9 @@
  *  2. 可通过插槽来配置具体的展示样式 -> 左、中、右三个插槽，父组件可以通过这三个插槽来指定对应的样式
  *  3. 可以接收从外部指定的一个样式(可以在父组件中指定navigationBar的style)
  */
+import { isIphoneX } from '@js/mixin.js'
 export default {
+  mixins: [isIphoneX],
   props: {
     // 页面标题名称
     pageName: {
@@ -63,6 +65,8 @@ export default {
   width: 100%;
   height: px2rem(44);
   line-height: px2rem(44);
+  // 适配沉浸式手机statusBar
+  padding-top: $statusBarHeight;
   .left, .right {
     display: flex;
     height: 100%;

@@ -52,9 +52,11 @@ import Search from '@c/common/Search'
 import Seconds from '@c/seconds/Seconds'
 import Goods from '@c/goods/Goods'
 import { px2rem } from '@js/utils'
+import { isIphoneX } from '@js/mixin.js'
 // 锚点值
 const ANCHOR_SCROLL_TOP = 160
 export default {
+  mixins: [isIphoneX],
   components: {
     MySwiper,
     Activity,
@@ -68,7 +70,7 @@ export default {
     return {
       // 轮播图图数据
       swiperData: [],
-      swiperHeight: px2rem(184),
+      swiperHeight: this.isIphoneX || this.isLH ? px2rem(228) : px2rem(184),
       // 活动数据
       activityData: [],
       // 秒杀数据

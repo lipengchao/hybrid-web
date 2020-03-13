@@ -8,6 +8,21 @@
           (1)应该在什么时机去改变当前页面的滑动距离
           (2)在组件的activated(keep-alive组件被激活时调用)方法中去指定页面滑动模块的滑动距离
      -->
+     <!--
+       适配沉浸式App问题
+        1. 沉浸式展示中，NavBar与tatusBar重叠
+        IOS设备根据屏幕的形状可以分为两种类型
+          1、IPhoneX以下的标准屏幕
+          2、IPhoneX以上的刘海屏幕
+        IOS设备问题
+          1、网页滚动卡顿
+          2、点击高亮效果
+          3、在iponex中展示，toolbar占据底部操作区的位置
+        解决方案：
+          1. 判断当前设备是否为IPhonex
+          2. 让项目的内容区域避开IphoneX中的危险区域，让内容在安全区进行展示
+        在刘海屏中，顶部紧贴着刘海展示位置
+      -->
     <transition :name="transitionName">
       <!-- 所有通过router-view加载的组件都会被缓存 -->
       <keep-alive :include="virtualTaskStack">
@@ -17,6 +32,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -44,6 +60,16 @@ export default {
         this.virtualTaskStack = ['Main']
       }
     }
+  },
+  created () {
+    this.setIsIphoneX(window.isIPhoneX)
+    this.setIsLH(window.isLH)
+  },
+  methods: {
+    ...mapMutations({
+      setIsIphoneX: 'setIsIphoneX',
+      setIsLH: 'setIsLH'
+    })
   }
 }
 </script>

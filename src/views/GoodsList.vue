@@ -5,7 +5,7 @@
         <img :src="layoutType.icon" @click="onChangeLayoutTypeClick">
       </template>
     </navigation-bar>
-    <div class="goods-list-page-content">
+    <div class="goods-list-page-content" :class="{'iphonex-bottom': isIphoneX}">
       <goods-options @optionsChange="onOptionsChange"></goods-options>
       <goods :layoutType="layoutType.type" :sort="sortType"></goods>
     </div>
@@ -16,7 +16,9 @@
 import NavigationBar from '@c/common/NavigationBar'
 import GoodsOptions from '@c/goods/GoodsOptions'
 import Goods from '@c/goods/Goods'
+import { isIphoneX } from '@js/mixin.js'
 export default {
+  mixins: [isIphoneX],
   name: 'GoodsList',
   components: {
     NavigationBar,

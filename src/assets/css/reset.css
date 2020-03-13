@@ -59,4 +59,9 @@ html, body {
   font-size: 0;
   /* 不允许选中文本 */
   user-select: none;
+  /* IOS滑动卡顿问题 */
+  -webkit-overflow-scrolling: touch;
+  /* IOS点击按钮取消高亮效果 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
 }

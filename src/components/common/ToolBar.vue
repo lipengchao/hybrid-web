@@ -1,5 +1,5 @@
 <template>
-  <div class="tool-bar">
+  <div class="tool-bar" :class="{'iphonex-bottom': isIphoneX}">
     <!-- tab按钮 -->
     <div
       class="tool-bar-item"
@@ -29,7 +29,9 @@
  * 3. 当按钮被选中的时候，应该切换按钮的状态
  *
  */
+import { isIphoneX } from '@js/mixin.js'
 export default {
+  mixins: [isIphoneX],
   data () {
     return {
       // tab 按钮数据源
