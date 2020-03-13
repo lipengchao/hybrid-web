@@ -28,6 +28,18 @@ const routes = [
     name: 'Buy',
     meta: { index: 3 },
     component: () => import('../views/Buy.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    meta: { index: 4 },
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    meta: { index: 5 },
+    component: () => import('../views/Register.vue')
   }
 ]
 

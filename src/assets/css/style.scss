@@ -20,7 +20,7 @@
   display: inline-block;
 }
 .z-index-max {
-  z-index: 99999;
+  z-index: 1000;
 }
 .z-index-2 {
   z-index: 2;
@@ -54,4 +54,19 @@
   text-align: center;
   border-radius: px2rem(50);
   background-color: $mainColor;
+}
+// 输入框
+.input-container {
+  overflow: hidden;
+  margin-top: $marginSize;
+  padding: $marginSize;
+  height: px2rem(48);
+  background-color: #fff;
+  border-bottom: px2rem(1) solid $lineColor;
+  box-sizing: border-box;
+  input {
+    width: 100%;
+    height: 100%;
+    font-size: $infoSize;
+  }
 }

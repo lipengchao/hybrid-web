@@ -37,6 +37,10 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
+input {
+  outline: none;
+  border: none;
+}
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
