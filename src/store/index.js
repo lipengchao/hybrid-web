@@ -9,7 +9,9 @@ export default new Vuex.Store({
     shoppingDatas: [],
     // 当前设备是否为iphoneX
     isIphoneX: false,
-    isLH: false
+    isLH: false,
+    // 登录用户名
+    username: undefined
   },
   mutations: {
     /**
@@ -51,12 +53,25 @@ export default new Vuex.Store({
     },
     setIsLH (state, isLH) {
       state.isLH = isLH
+    },
+    /**
+     * 指定username
+     */
+    setUsername (state, username) {
+      state.username = username
+    },
+    /**
+     * 退出登录，处理username
+     */
+    clearUsername (state) {
+      state.username = undefined
     }
   },
   getters: {
     shoppingDatas: state => state.shoppingDatas,
     isIphoneX: state => state.isIphoneX,
-    isLH: state => state.isLH
+    isLH: state => state.isLH,
+    username: state => state.username
   },
   actions: {
   },

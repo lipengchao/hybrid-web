@@ -23,6 +23,14 @@
           2. 让项目的内容区域避开IphoneX中的危险区域，让内容在安全区进行展示
         在刘海屏中，顶部紧贴着刘海展示位置
       -->
+      <!--
+        WEB与原生交互
+          1. 自动登录的部分
+            1. 注册
+            2. 登录
+            3. 退出登录
+          2. 支付宝、微信支付
+       -->
     <transition :name="transitionName">
       <!-- 所有通过router-view加载的组件都会被缓存 -->
       <keep-alive :include="virtualTaskStack">
@@ -64,11 +72,22 @@ export default {
   created () {
     this.setIsIphoneX(window.isIPhoneX)
     this.setIsLH(window.isLH)
+    // 指定Native主动调用的方法
+    window.nativeFunctionUserLogin = this.nativeFunctionUserLogin
   },
   methods: {
+    /**
+     * 提供给native调用的方法，这个方法可接收当前自动登录的用户名
+     * 保存当前自动登录的用户名到vuex
+     */
+    nativeFunctionUserLogin (username) {
+      // 保存自动登录用的username到vuex
+      this.setUsername(username)
+    },
     ...mapMutations({
       setIsIphoneX: 'setIsIphoneX',
-      setIsLH: 'setIsLH'
+      setIsLH: 'setIsLH',
+      setUsername: 'setUsername'
     })
   }
 }
